@@ -47,14 +47,9 @@ module.exports = (sequelize, DataTypes) => {
     birthday: { 
       type: DataTypes.DATEONLY,
       validate: {
-        notNull: true,
         notEmpty: true,
         isDate: true,
-        isValidDate (value) {
-          if(isAfter(new Date(value)), new Date()){
-            throw new Error('Your birthday must be earlier than today')
-          }
-        }
+        isBefore: new Date().toDateString()
       }
     },
     gender: {
