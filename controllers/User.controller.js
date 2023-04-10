@@ -22,9 +22,8 @@ module.exports.findAll = async (req, res, next) => {
 
 module.exports.findOneByPk = async (req, res, next) => {
     try{
-        const {params: {id}} = req;
-        const findUser = await User.findByPk(id);
-        return res.status(200).send(findUser);
+        const {userInstance} = req;
+        return res.status(200).send(userInstance);
     }catch(err){
         next(err);
     }
@@ -62,9 +61,8 @@ module.exports.updateUser = async (req,res,next) =>{
     //     next(err);
     // }
     try{
-        const {params: {id},body} = req;
-        const foundedUser = await User.findByPk(id);
-        const updatedUser = await foundedUser.update(body);
+        const {userInstance, body} = req;
+        const updatedUser = await userInstance.update(body);
         return res.status(201).send(updatedUser);
     }catch(err){
         next(err);
