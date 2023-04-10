@@ -3,9 +3,8 @@ const {Task,User} = require('../models');
 
 module.exports.createTask = async (req, res, next) => {
     try{
-        const {params: {userId}, body} = req;
-        const user = await User.findByPk(userId);
-        const result = await user.createTask(body); //magic method
+        const {userInstance, body} = req;
+        const result = await userInstance.createTask(body); //magic method
         res.status(201).send(result);
     }catch(err){
         next(err);
@@ -14,9 +13,8 @@ module.exports.createTask = async (req, res, next) => {
 
 module.exports.findAllUserTasks = async (req, res, next) =>{
     try{
-        const {params: {userId}} = req;
-        const user = await User.findByPk(userId);
-        const result = await user.getTasks(); //magic method
+        const {userInstance} = req;
+        const result = await userInstance.getTasks(); //magic method
         res.status(200).send(result);
     }catch(err){
         next(err);
@@ -25,9 +23,8 @@ module.exports.findAllUserTasks = async (req, res, next) =>{
 
 module.exports.getCountOfTasks = async (req, res, next) =>{
     try{
-        const {params: {userId}} = req;
-        const user = await User.findByPk(userId);
-        const result = await user.countTasks();
+        const {userInstance} = req;
+        const result = await userInstance.countTasks();
         res.status(200).send(`${result}`);
     }catch(err){
         next(err);
