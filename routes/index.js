@@ -3,6 +3,7 @@ const UserController = require('../controllers/User.controller');
 const TaskController = require('../controllers/Task.controller');
 const {getUserInstance, validateUser} = require('../midllewares/user.mv');
 const {validateTask} = require('../midllewares/task.mv');
+const GroupController = require('../controllers/Group.controller');
 
 
 const router = Router();
@@ -15,6 +16,10 @@ router.put('/user/:userId', getUserInstance, UserController.updateUser);
 router.post('/task/:userId', validateTask, getUserInstance,TaskController.createTask);
 router.get('/task/:userId', getUserInstance, TaskController.findAllUserTasks);
 router.get('/tasks/:userId', getUserInstance, TaskController.getCountOfTasks);
+
+
+router.post('/group', GroupController.createGroup);
+router.put('/group/:userId/:groupId', getUserInstance, GroupController.addUserToGroup)
 
 
 module.exports = router;
