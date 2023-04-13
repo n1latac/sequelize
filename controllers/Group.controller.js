@@ -22,3 +22,24 @@ module.exports.addUserToGroup = async(req, res, next) => {
         next(err);
     }
 }
+module.exports.getUsersGroup = async (req, res, next) => {
+    try{
+        const {userInstance} = req;
+        const groups = await userInstance.getGroups();
+        return res.status(200).send(groups);
+    }catch(err){
+        next(err);
+    }
+}
+module.exports.deleteUserFromGroup = async (req, res, next) => {
+    try{
+        const {params: {groupId}, userInstance} = req;
+        const group = await Group.findByPk(groupId);
+        const result = await group.removeUser(userInstance);
+        if(result){
+            return res.status(201).send(`${result}`);
+        }
+    }catch(err){
+        next(err);
+    }
+}

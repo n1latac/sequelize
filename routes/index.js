@@ -1,25 +1,17 @@
 const {Router} = require('express');
-const UserController = require('../controllers/User.controller');
-const TaskController = require('../controllers/Task.controller');
-const {getUserInstance, validateUser} = require('../midllewares/user.mv');
-const {validateTask} = require('../midllewares/task.mv');
-const GroupController = require('../controllers/Group.controller');
+const userRouter = require('./userRouter');
+const groupRouter = require('./groupRouter');
+const taskRouter = require('./taskRouter');
 
 
 const router = Router();
-
-router.post('/user', validateUser, UserController.createUser);
-router.get('/users',UserController.findAll);
-router.get('/user/:userId', getUserInstance, UserController.findOneByPk);
-router.delete('/user/:userId', getUserInstance, UserController.deleteOneByPk);
-router.put('/user/:userId', getUserInstance, UserController.updateUser);
-router.post('/task/:userId', validateTask, getUserInstance,TaskController.createTask);
-router.get('/task/:userId', getUserInstance, TaskController.findAllUserTasks);
-router.get('/tasks/:userId', getUserInstance, TaskController.getCountOfTasks);
+router.use('/users', userRouter);
+router.use('/tasks', taskRouter);
+router.use('/groups', groupRouter);
 
 
-router.post('/group', GroupController.createGroup);
-router.put('/group/:userId/:groupId', getUserInstance, GroupController.addUserToGroup)
+
+
 
 
 module.exports = router;
