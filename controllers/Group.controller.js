@@ -1,4 +1,5 @@
 const {Group} = require('../models');
+const {User} = require('../models');
 
 module.exports.createGroup = async (req, res, next) => {
     try{
@@ -39,6 +40,31 @@ module.exports.deleteUserFromGroup = async (req, res, next) => {
         if(result){
             return res.status(201).send(`${result}`);
         }
+    }catch(err){
+        next(err);
+    }
+}
+
+module.exports.getAllGroups = async(req, res, next) => {
+    try{
+        const {pagination} = req;
+        const groups = await Group.findAll({
+            ...pagination
+        })
+        console.log(groups);
+        res.status(200).send(groups);
+    }catch(err){
+        next(err);
+    }
+}
+
+module.exports.getAllUsersInOneGroup = async(req, res, next) => {
+    try{
+        const {params: {groupId}} = req;
+        const group = await Group.findByPk(groupId, {
+            include: [User]
+        })
+        res.status(200).send(group);
     }catch(err){
         next(err);
     }
