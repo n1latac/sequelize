@@ -1,4 +1,5 @@
 const { use } = require('../app');
+const paginationMv = require('../midllewares/pagination.mv');
 const {Task,User} = require('../models');
 
 module.exports.createTask = async (req, res, next) => {
@@ -13,8 +14,10 @@ module.exports.createTask = async (req, res, next) => {
 
 module.exports.findAllUserTasks = async (req, res, next) =>{
     try{
-        const {userInstance} = req;
-        const result = await userInstance.getTasks(); //magic method
+        const {userInstance, pagination} = req;
+        const result = await userInstance.getTasks({
+            ...pagination
+        }); //magic method
         res.status(200).send(result);
     }catch(err){
         next(err);
