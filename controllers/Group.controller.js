@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const {Group} = require('../models');
 const {User} = require('../models');
 
@@ -62,7 +63,13 @@ module.exports.getAllUsersInOneGroup = async(req, res, next) => {
     try{
         const {params: {groupId}} = req;
         const group = await Group.findByPk(groupId, {
-            include: [User]
+            include: [{
+                model: User,
+                attributes: {
+                    exclude: ['password']
+                }
+                
+            }],
         })
         res.status(200).send(group);
     }catch(err){
