@@ -1,13 +1,13 @@
 const {Router} = require('express');
 const multer = require('multer');
-const path = require('path');
 const {getUserInstance} = require('../midllewares/user.mv');
 const GroupController = require('../controllers/Group.controller');
 const pagination = require('../midllewares/pagination.mv');
+const {STATIC_PATH} = require('../config/path.config')
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb){
-        cb(null, path.resolve(__dirname, '../public/images'));
+        cb(null, STATIC_PATH);
     },
     filename: function(req, file, cb){
         cb(null, `${Date.now()}.${file.originalname}`);
