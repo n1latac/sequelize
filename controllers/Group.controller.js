@@ -76,3 +76,20 @@ module.exports.getAllUsersInOneGroup = async(req, res, next) => {
         next(err);
     }
 }
+
+module.exports.createGroupImage = async(req, res, next) => {
+    try{
+        const {params: {groupId}, file: {filename}} = req;
+        const [rowCount,[updatedGroup]] = await Group.update({
+            imagePath: filename
+        }, {
+            where:{
+                id: groupId
+            },
+            returning: true
+        })
+        res.send(updatedGroup);
+    }catch(err){
+        next(err);
+    }
+}
